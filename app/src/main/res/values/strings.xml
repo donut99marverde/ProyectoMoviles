@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Proyecto</string>
+    <string name="app_name">SQL test</string>
+    <string name="MEDITATION">meditation</string>
+    <string name="EXERCISE">exercise</string>
+    <string name="SLEEP">sleep</string>
+    <string name="WATER">water</string>
 </resources>
