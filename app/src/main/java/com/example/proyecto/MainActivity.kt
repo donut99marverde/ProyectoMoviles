@@ -2,6 +2,10 @@ package com.example.proyecto
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
+import android.content.Intent
+import android.view.View
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,5 +43,13 @@ class MainActivity : AppCompatActivity() {
         for (habit in todayHabits) {
             habitManager.printHabitObj(habit)
         }*/
+
+        val button2 = findViewById<Button>(R.id.button_scroll_2);
+
+        button2.setOnClickListener(){
+            val intent = Intent(this,Pantalla_Vasos::class.java)
+            startActivity(intent)
+        }
+
     }
 }
