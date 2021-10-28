@@ -10,6 +10,7 @@ class Habit {
     var daysOfTheWeek : ArrayList<String>
     var alertTimes : ArrayList<String>?
     var isActive: Int = 0
+    var completed: Int = 0
 
     constructor(category: String, frequency: String, timesPerDay: Int, daysOfTheWeek: ArrayList<String>, alertTimes: ArrayList<String>?, isActive: Int) {
         this.category = category

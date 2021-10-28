@@ -150,6 +150,8 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
     fun addHabit(habit: Habit) : Boolean {
         val db = this.writableDatabase
+
+        println(habit.category)
         val habitID = getHabitID(habit.category, db)
 
         if(!setHabitInfo(habit, habitID, db)) {
@@ -166,6 +168,12 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
         db.close()
         return true
+    }
+
+    fun getHabit(category: String): Habit {
+        val db = this.readableDatabase
+
+        return getHabit(category, db)!!
     }
 
     private fun setHabitInfo(habit: Habit, habitID : String, db: SQLiteDatabase) : Boolean {

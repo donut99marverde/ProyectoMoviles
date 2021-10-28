@@ -11,10 +11,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*
+
         val context = this
         context.deleteDatabase("Habits")
         val habitManager = HabitManager(context)
+
+        /*
         var alertTimes = ArrayList<String>()
         var daysOfTheWeek = ArrayList<String>()
         alertTimes.add("19:00")
@@ -44,9 +46,11 @@ class MainActivity : AppCompatActivity() {
             habitManager.printHabitObj(habit)
         }*/
 
-        val button2 = findViewById<Button>(R.id.button_scroll_2);
 
-        button2.setOnClickListener(){
+        println(habitManager.isHabitActive(getString(R.string.WATER)))
+        val habit7Button = findViewById<Button>(R.id.button_scroll_7);
+
+        habit7Button.setOnClickListener(){
             val intent = Intent(this,Pantalla_Vasos::class.java)
             startActivity(intent)
         }

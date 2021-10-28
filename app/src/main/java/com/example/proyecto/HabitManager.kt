@@ -9,7 +9,7 @@ class HabitManager (context: Context) {
     var db = DBManager(context)
 
     fun addDailyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>?) : Boolean{
-        val daysOfTheWeek =ArrayList<String>()
+        val daysOfTheWeek = ArrayList<String>()
         daysOfTheWeek.add("monday")
         daysOfTheWeek.add("tuesday")
         daysOfTheWeek.add("wednesday")
@@ -37,6 +37,10 @@ class HabitManager (context: Context) {
 
     fun isHabitActive(category: String): Boolean {
         return db.isHabitActive(category)
+    }
+
+    fun getHabit(category: String): Habit {
+        return db.getHabit(category)
     }
 
     fun printTables() {
