@@ -3,11 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/sguas/Documents/7mo semestre/Moviles/RepoProyecto/app/src/main/res/drawable/meditar_6.xml" value="0.3138888888888889" />
+        <entry key="..\:/Users/sguas/Documents/7mo semestre/Moviles/RepoProyecto/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/sguas/Documents/7mo semestre/Moviles/RepoProyecto/app/src/main/res/layout/activity_pantalla_habito_faltante.xml" value="0.33" />
+        <entry key="..\:/Users/sguas/Documents/7mo semestre/Moviles/RepoProyecto/app/src/main/res/layout/activity_pantalla_vasos.xml" value="0.33" />
+        <entry key="..\:/Users/sguas/Documents/7mo semestre/Moviles/RepoProyecto/app/src/main/res/layout/habitos_main_faltantes.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/sguas/Documents/7mo semestre/Moviles/RepoProyecto/app/src/main/res/xml/habitos_main_faltantes.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3990505510830191" />
         <entry key="app/src/main/res/layout/activity_pantalla_vasos.xml" value="0.6383601414874863" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

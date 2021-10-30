@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
-            android:id="@+id/button29"
+            android:id="@+id/button_habitoHoy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lo_que_me_falta_hacer_hoy" />

@@ -49,9 +49,15 @@ class MainActivity : AppCompatActivity() {
 
         println(habitManager.isHabitActive(getString(R.string.WATER)))
         val habit7Button = findViewById<Button>(R.id.button_scroll_7);
+        val habitoHOY = findViewById<Button>(R.id.button_habitoHoy);
 
         habit7Button.setOnClickListener(){
             val intent = Intent(this,Pantalla_Vasos::class.java)
+            startActivity(intent)
+        }
+
+        habitoHOY.setOnClickListener(){
+            val intent = Intent(this,pantalla_habito_faltante::class.java)
             startActivity(intent)
         }
 

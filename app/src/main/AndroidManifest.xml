@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyecto">
         <activity
+            android:name=".pantalla_habito_faltante"
+            android:exported="true" />
+        <activity
             android:name=".Pantalla_Vasos"
             android:exported="true" />
         <activity
