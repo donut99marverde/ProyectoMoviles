@@ -11,8 +11,10 @@ class pantalla_habito_faltante : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =   ActivityPantallaHabitoFaltanteBinding.inflate(layoutInflater)
-
+        val habitManager = HabitManager(this)
+        val activeHabits = habitManager.todayHabits()
         setContentView(binding.root)
+
         var doHabit = mutableListOf<ListElement>(
             ListElement("Rutina de Ejericicio", "0/1", "activa", R.drawable.rutina_ejercicio_1),
             ListElement("Notificaciones", "0/1", "activa", R.drawable.notifications_paused_2),
@@ -24,6 +26,8 @@ class pantalla_habito_faltante : AppCompatActivity() {
             ListElement("Horas de sueño", "0/1", "activa", R.drawable.horas_suenio_8),
             ListElement("Pasos", "0 /1", "activa", R.drawable.pasos_9)
         )
+
+        var todayHabits = mutableListOf<ListElement>()
 
         val adapter = habitoAdapter(doHabit)
         binding.RVhabitos.adapter = adapter

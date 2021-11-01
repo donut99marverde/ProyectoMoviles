@@ -8,7 +8,8 @@ class HabitManager (context: Context) {
 
     var db = DBManager(context)
 
-    fun addDailyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>?) : Boolean{
+    fun addDailyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>?) : Boolean {
+        deleteHabit(category)
         val daysOfTheWeek = ArrayList<String>()
         daysOfTheWeek.add("monday")
         daysOfTheWeek.add("tuesday")
@@ -22,13 +23,18 @@ class HabitManager (context: Context) {
         return db.addHabit(habit)
     }
 
-    fun addWeeklyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>, daysOfTheWeek: ArrayList<String>) : Boolean{
+    fun addWeeklyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>, daysOfTheWeek: ArrayList<String>) : Boolean {
+        deleteHabit(category)
         val habit = Habit(category, "weekly", timesPerDay, daysOfTheWeek, alertTimes, 1)
-        return  db.addHabit(habit)
+        return db.addHabit(habit)
     }
 
     fun deleteHabit(category: String) : Boolean{
         return db.deleteHabit(category)
+    }
+
+    fun setCompleted(category: String, completedToday: Int) : Boolean {
+        return db.updateCompleted(category, completedToday)
     }
 
     fun todayHabits() : ArrayList<Habit>{
@@ -72,6 +78,8 @@ class HabitManager (context: Context) {
             print(weekday)
             print(",")
         }
-        println("]")
+        print("]")
+        print(" completed = ")
+        println(habit.completed)
     }
 }

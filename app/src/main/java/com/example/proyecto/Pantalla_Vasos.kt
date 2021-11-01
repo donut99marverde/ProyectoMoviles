@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import org.w3c.dom.Text
 
 class Pantalla_Vasos : AppCompatActivity() {
@@ -24,6 +25,8 @@ class Pantalla_Vasos : AppCompatActivity() {
         alertTimes.add("23:00")
 
         habitManager.addDailyHabit(getString(R.string.WATER), 5, alertTimes)
+        habitManager.setCompleted("water", 10)
+
 
         val addButton = findViewById<Button>(R.id.addButton)
         val deleteButton = findViewById<Button>(R.id.deleteButton)
@@ -44,11 +47,14 @@ class Pantalla_Vasos : AppCompatActivity() {
         val deleteButton = findViewById<Button>(R.id.deleteButton)
         val timesPerDayTextNumber = findViewById<TextView>(R.id.timesPerDayTextNumber)
         val statusTextView = findViewById<TextView>(R.id.statusTextView)
-
+        val completedTextView = findViewById<TextView>(R.id.completedTextView)
+        val leftTextView = findViewById<TextView>(R.id.leftTextView)
         addButton.setBackgroundColor(Color.BLUE)
         deleteButton.setBackgroundColor(Color.RED)
 
         val habit = habitManager.getHabit(getString(R.string.WATER))
+
+        habitManager.printHabitObj(habit)
 
         if(habit.isActive == 1) {
             var status = "El habito se encuentra activo"
@@ -67,21 +73,77 @@ class Pantalla_Vasos : AppCompatActivity() {
             }
 
             statusTextView.text = status
+            completedTextView.text = habit.completed.toString()
 
         } else {
             statusTextView.text = "El hábito no esta activo"
             addButton.text = "Agregar"
             deleteButton.isEnabled = false
             timesPerDayTextNumber.text = "0"
+            completedTextView.text = "0"
+        }
+
+        if(habit.completed < habit.timesPerDay) {
+            leftTextView.text = (habit.timesPerDay - habit.completed).toString()
+        } else {
+            leftTextView.text = "0"
         }
     }
 
 
     private fun addHabit() {
+        val addButton = findViewById<Button>(R.id.addButton)
+        val timesPerDayTextNumber = findViewById<TextView>(R.id.timesPerDayTextNumber)
+        val statusTextView = findViewById<TextView>(R.id.statusTextView)
+        val completedTextView = findViewById<TextView>(R.id.completedTextView)
+        val leftTextView = findViewById<TextView>(R.id.leftTextView)
 
+        var timesPerDay = 0
+        val frequency = "daily"
+        var alertTimes = ArrayList<String>()
+        var daysOfTheWeek = ArrayList<String>()
+        alertTimes.add("11:00")
+        daysOfTheWeek.add("monday")
+        daysOfTheWeek.add("wednesday")
+
+        if(timesPerDayTextNumber.text.toString().length > 0) {
+            timesPerDay = timesPerDayTextNumber.text.toString().toInt()
+        } else {
+            Toast.makeText(this, "El número de hábitos se encuentra vacio", Toast.LENGTH_SHORT).show()
+        }
+
+        var success = false
+
+        if(frequency == "daily") {
+            success = habitManager.addDailyHabit("water", timesPerDay, alertTimes)
+
+            if(!success) {
+                Toast.makeText(this, "Ocurrió un error al agregar el hábito diario", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            success = habitManager.addWeeklyHabit("water", timesPerDay, alertTimes, daysOfTheWeek)
+
+            if(!success) {
+                Toast.makeText(this, "Ocurrió un error al agregar el hábito semanal", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if(addButton.text == "Actualizar") {
+            Toast.makeText(this, "Se ha actualizado el hábito", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Se ha agregado el hábito", Toast.LENGTH_SHORT).show()
+        }
+        updateViews()
     }
 
     private fun deleteHabit() {
+        val success = habitManager.deleteHabit("water")
 
+        if(success) {
+            Toast.makeText(this, "Hábito eliminado", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Ocurrió un error al eliminar el hábito", Toast.LENGTH_SHORT).show()
+        }
+        updateViews()
     }
 }

@@ -151,7 +151,6 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     fun addHabit(habit: Habit) : Boolean {
         val db = this.writableDatabase
 
-        println(habit.category)
         val habitID = getHabitID(habit.category, db)
 
         if(!setHabitInfo(habit, habitID, db)) {
@@ -236,7 +235,13 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
     fun deleteHabit(category: String) : Boolean {
         val db = this.writableDatabase
+
         val id = getHabitID(category, db)
+
+        if(!resetHabitInfo(category, db)) {
+            return false
+        }
+
         if(!deleteAlarms(id, db)) {
             return false
         }
@@ -245,15 +250,29 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             return false
         }
 
-
         db.close()
+        return true
+    }
+
+    private fun resetHabitInfo(category: String, db: SQLiteDatabase) : Boolean {
+        val id = getHabitID(category, db)
+        val cv = contentValuesOf()
+
+        cv.put(ACTIVE_COL_FREQUENCY, "daily")
+        cv.put(ACTIVE_COL_TIMES_PER_DAY, 0)
+        cv.put(ACTIVE_COL_IS_ACTIVE, 0)
+
+        val success  = db.update(ACTIVE_HABITS_TABLE, cv, ACTIVE_COL_HABIT_ID +  " =?", arrayOf(id))
+
+        if(success == -1) {
+            return false
+        }
         return true
     }
 
     private fun deleteAlarms(habitID: String, db: SQLiteDatabase) : Boolean {
         val success = db.delete(TIME_OF_THE_DAY_TABLE, TIME_COL_HABIT_ID + " =?", arrayOf(habitID))
-        print("delete success = ")
-        println(success)
+
         if(success == -1) {
             return false
         }
@@ -348,7 +367,8 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 val isActive = cursor.getString(4).toInt()
                 val daysOfTheWeek = getDaysOfTheWeek(category, db)
                 val alertTimes = getAlertTimes(category, db)
-                return Habit(category, frequency, timesPerDay, daysOfTheWeek, alertTimes, isActive)
+                val completed = getCompleted(category, db)
+                return Habit(category, frequency, timesPerDay, daysOfTheWeek, alertTimes, isActive, completed)
             } while(cursor.moveToNext())
         }
         return null
@@ -411,6 +431,80 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             return null
         }
         return list
+    }
+
+    private fun getCompleted(category: String, db: SQLiteDatabase) : Int {
+        val success = updateTodayInfo(db)
+
+        if(!success) {
+            return 0
+        }
+
+        val id = getHabitID(category, db)
+        val query = "SELECT * FROM " + TODAY_INFO_TABLE + " WHERE " + TODAY_COL_HABIT_ID + " = '$id'"
+        val cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToFirst()) {
+            return cursor.getString(1).toInt()
+        }
+
+        return 0
+    }
+
+    fun updateCompleted(category: String, timesCompleted: Int) : Boolean{
+        val db = this.writableDatabase
+        val id = getHabitID(category, db)
+        var success  = updateTodayInfo(db)
+        if(!success) {
+            return false
+        }
+
+        val query = "Select * " + " FROM " + TODAY_INFO_TABLE + " WHERE " + TODAY_COL_HABIT_ID +  " = " + "'$id'"
+        val cursor = db.rawQuery(query, null)
+
+        if(cursor.moveToFirst()) {
+            val cv = contentValuesOf()
+            cv.put(TODAY_COL_TIMES_COMPLETED, timesCompleted)
+            val result = db.update(TODAY_INFO_TABLE, cv, TODAY_COL_HABIT_ID + " =?", arrayOf(cursor.getString(0)))
+
+            if(result == -1) {
+                return false
+            }
+
+            return true
+        }
+
+        return false
+    }
+
+    private fun updateTodayInfo(db: SQLiteDatabase) : Boolean{
+        val query = "SELECT * FROM " + TODAY_INFO_TABLE
+        var cursor = db.rawQuery(query, null)
+        cursor.moveToFirst()
+
+        if(cursor.moveToFirst()) {
+            val storedDate = Date(cursor.getString(2))
+            val today = Date()
+
+            if(storedDate.day != today.day || storedDate.month != today.month || storedDate.year != today.year) {
+                cursor = db.rawQuery(query, null)
+                if(cursor.moveToFirst()) {
+                    do {
+                        val cv = contentValuesOf()
+                        cv.put(TODAY_COL_TIMES_COMPLETED, 0)
+                        cv.put(TODAY_COL_DATE, Date().toString())
+                        val success = db.update(TODAY_INFO_TABLE, cv, TODAY_COL_HABIT_ID + " =?", arrayOf(cursor.getString(0)))
+
+                        if(success == -1) {
+                            return false
+                        }
+                        return true
+                    } while(cursor.moveToNext())
+                }
+            }
+            return true
+        }
+        return false
     }
 
     fun printInfoFromAllTables() {
