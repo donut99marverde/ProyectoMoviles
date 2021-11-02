@@ -13,25 +13,32 @@ class Pantalla_Vasos : AppCompatActivity() {
 
     private lateinit var habitManager: HabitManager
 
+    var contadorVasos = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pantalla_vasos)
         title = "Vasos de agua"
         habitManager = HabitManager(this)
+        val habit = habitManager.getHabit(getString(R.string.WATER))
 
         var alertTimes = ArrayList<String>()
         alertTimes.add("10:00")
         alertTimes.add("15:00")
         alertTimes.add("23:00")
 
-        habitManager.addDailyHabit(getString(R.string.WATER), 5, alertTimes)
-        habitManager.setCompleted("water", 10)
-
+        habitManager.addDailyHabit(getString(R.string.WATER), 7, alertTimes)
+        habitManager.setCompleted("water", 0)
 
         val addButton = findViewById<Button>(R.id.addButton)
         val deleteButton = findViewById<Button>(R.id.deleteButton)
+        val addCounterVaso = findViewById<Button>(R.id.sumarVaso)
+        val subsCounterVaso = findViewById<Button>(R.id.restarVaso)
+        val vasos = findViewById<TextView>(R.id.numVasos)
+        val leftTextView = findViewById<TextView>(R.id.leftTextView)
 
         updateViews()
+
 
         addButton.setOnClickListener {
             addHabit()
@@ -40,6 +47,43 @@ class Pantalla_Vasos : AppCompatActivity() {
         deleteButton.setOnClickListener {
             deleteHabit()
         }
+
+        addCounterVaso.setOnClickListener {
+            contadorVasos += 1
+            vasos.text = contadorVasos.toString()
+            actualizarDatosContador()
+        }
+
+        subsCounterVaso.setOnClickListener {
+            if(contadorVasos <= 0){
+                Toast.makeText(this, "Los vasos consumidos deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                contadorVasos -= 1
+                vasos.text = contadorVasos.toString()
+            }
+            actualizarDatosContador()
+        }
+
+
+
+    }
+
+
+    private fun actualizarDatosContador() {
+        val timesPerDayTextNumber = findViewById<TextView>(R.id.timesPerDayTextNumber)
+        val completedTextView = findViewById<TextView>(R.id.completedTextView)
+        val leftTextView = findViewById<TextView>(R.id.leftTextView)
+        val vasos = findViewById<TextView>(R.id.numVasos)
+        val habit = habitManager.getHabit(getString(R.string.WATER))
+
+        if((habit.timesPerDay - contadorVasos) <= 0){
+            leftTextView.text = "0"
+        }
+        else{
+            leftTextView.text = (habit.timesPerDay - contadorVasos).toString()
+        }
+        completedTextView.text = contadorVasos.toString()
     }
 
     private fun updateViews() {
@@ -49,6 +93,7 @@ class Pantalla_Vasos : AppCompatActivity() {
         val statusTextView = findViewById<TextView>(R.id.statusTextView)
         val completedTextView = findViewById<TextView>(R.id.completedTextView)
         val leftTextView = findViewById<TextView>(R.id.leftTextView)
+        val vasos = findViewById<TextView>(R.id.numVasos)
         addButton.setBackgroundColor(Color.BLUE)
         deleteButton.setBackgroundColor(Color.RED)
 
@@ -83,17 +128,22 @@ class Pantalla_Vasos : AppCompatActivity() {
             completedTextView.text = "0"
         }
 
+
         if(habit.completed < habit.timesPerDay) {
             leftTextView.text = (habit.timesPerDay - habit.completed).toString()
         } else {
             leftTextView.text = "0"
         }
+
+        contadorVasos = 0
+        vasos.text = contadorVasos.toString()
     }
 
 
     private fun addHabit() {
         val addButton = findViewById<Button>(R.id.addButton)
         val timesPerDayTextNumber = findViewById<TextView>(R.id.timesPerDayTextNumber)
+        val vasos = findViewById<TextView>(R.id.numVasos)
         val statusTextView = findViewById<TextView>(R.id.statusTextView)
         val completedTextView = findViewById<TextView>(R.id.completedTextView)
         val leftTextView = findViewById<TextView>(R.id.leftTextView)
@@ -108,6 +158,7 @@ class Pantalla_Vasos : AppCompatActivity() {
 
         if(timesPerDayTextNumber.text.toString().length > 0) {
             timesPerDay = timesPerDayTextNumber.text.toString().toInt()
+
         } else {
             Toast.makeText(this, "El número de hábitos se encuentra vacio", Toast.LENGTH_SHORT).show()
         }
@@ -146,4 +197,5 @@ class Pantalla_Vasos : AppCompatActivity() {
         }
         updateViews()
     }
+
 }

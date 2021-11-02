@@ -17,4 +17,5 @@
     <string name="reporte_semanal_mensual">Reporte semanal/mensual</string>
     <string name="historial_de_h_bitos_completo">Historial de hábitos completo</string>
     <string name="completado">Completado:</string>
+    <string name="sumarVasosButton">+</string>
 </resources>
