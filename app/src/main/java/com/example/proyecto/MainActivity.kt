@@ -16,7 +16,16 @@ class MainActivity : AppCompatActivity() {
         val context = this
         context.deleteDatabase("Habits")
         val habitManager = HabitManager(context)
+        var alertTimes = ArrayList<String>()
+        alertTimes.add("10:00")
+        alertTimes.add("15:00")
+        alertTimes.add("23:00")
 
+        habitManager.addDailyHabit(getString(R.string.Vasos_de_agua), 7, alertTimes)
+        habitManager.setCompleted(getString(R.string.Vasos_de_agua), 0)
+
+        habitManager.addDailyHabit(getString(R.string.Meditacion), 3, alertTimes)
+        habitManager.setCompleted(getString(R.string.Meditacion), 0)
         /*
         var alertTimes = ArrayList<String>()
         var daysOfTheWeek = ArrayList<String>()
@@ -48,9 +57,22 @@ class MainActivity : AppCompatActivity() {
         }*/
 
 
-        println(habitManager.isHabitActive(getString(R.string.WATER)))
+        println(habitManager.isHabitActive(getString(R.string.Vasos_de_agua)))
+
+        val habit5Button = findViewById<Button>(R.id.button_scroll_5)
+        val habit6Button = findViewById<Button>(R.id.button_scroll_6)
         val habit7Button = findViewById<Button>(R.id.button_scroll_7);
         val habitoHOY = findViewById<Button>(R.id.button_habitoHoy);
+
+        habit5Button.setOnClickListener {
+            val intent = Intent(this, Pantalla_Raciones_Frutas_Vegetales::class.java)
+            startActivity(intent)
+        }
+
+        habit6Button.setOnClickListener {
+            val intent = Intent(this, Pantalla_Meditacion::class.java)
+            startActivity(intent)
+        }
 
         habit7Button.setOnClickListener(){
             val intent = Intent(this,Pantalla_Vasos::class.java)

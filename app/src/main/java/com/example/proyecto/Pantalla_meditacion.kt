@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 
-class Pantalla_Vasos : AppCompatActivity() {
+class Pantalla_Meditacion : AppCompatActivity() {
 
     private lateinit var habitManager: HabitManager
 
@@ -15,10 +15,10 @@ class Pantalla_Vasos : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pantalla_vasos)
-        title = "Vasos de agua"
+        setContentView(R.layout.activity_pantalla_meditacion)
+        title = "Meditacion"
         habitManager = HabitManager(this)
-        val habit = habitManager.getHabit(getString(R.string.Vasos_de_agua))
+        val habit = habitManager.getHabit(getString(R.string.Meditacion))
 
         val addButton = findViewById<Button>(R.id.addButton)
         val deleteButton = findViewById<Button>(R.id.deleteButton)
@@ -45,7 +45,7 @@ class Pantalla_Vasos : AppCompatActivity() {
 
         subsCounter.setOnClickListener {
             if(counter <= 0){
-                Toast.makeText(this, "Los vasos consumidos deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Las meditaciones hechas deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
             }
             else{
                 counter -= 1
@@ -59,8 +59,8 @@ class Pantalla_Vasos : AppCompatActivity() {
     private fun updateCounterData() {
         val completedTextView = findViewById<TextView>(R.id.completedTextView)
         val leftTextView = findViewById<TextView>(R.id.leftTextView)
-        habitManager.setCompleted(getString(R.string.Vasos_de_agua), counter);
-        val habit = habitManager.getHabit(getString(R.string.Vasos_de_agua))
+        habitManager.setCompleted(getString(R.string.Meditacion), counter);
+        val habit = habitManager.getHabit(getString(R.string.Meditacion))
 
         if((habit.timesPerDay - counter) <= 0){
             leftTextView.text = "0"
@@ -82,7 +82,7 @@ class Pantalla_Vasos : AppCompatActivity() {
         addButton.setBackgroundColor(Color.BLUE)
         deleteButton.setBackgroundColor(Color.RED)
 
-        val habit = habitManager.getHabit(getString(R.string.Vasos_de_agua))
+        val habit = habitManager.getHabit(getString(R.string.Meditacion))
 
         habitManager.printHabitObj(habit)
 
@@ -112,7 +112,7 @@ class Pantalla_Vasos : AppCompatActivity() {
             timesPerDayTextNumber.text = "0"
             completedTextView.text = "0"
         }
-        
+
         counter = habit.completed
         completedTextView.text = counter.toString()
         leftTextView.text = (habit.timesPerDay - habit.completed).toString()
@@ -142,14 +142,14 @@ class Pantalla_Vasos : AppCompatActivity() {
         var success = false
 
         if(frequency == "daily") {
-            success = habitManager.addDailyHabit(getString(R.string.Vasos_de_agua), timesPerDay, alertTimes)
+            success = habitManager.addDailyHabit(getString(R.string.Meditacion), timesPerDay, alertTimes)
 
             if(!success) {
                 Toast.makeText(this, "Ocurrió un error al agregar el hábito diario", Toast.LENGTH_SHORT).show()
                 return
             }
         } else {
-            success = habitManager.addWeeklyHabit(getString(R.string.Vasos_de_agua), timesPerDay, alertTimes, daysOfTheWeek)
+            success = habitManager.addWeeklyHabit(getString(R.string.Meditacion), timesPerDay, alertTimes, daysOfTheWeek)
 
             if(!success) {
                 Toast.makeText(this, "Ocurrió un error al agregar el hábito semanal", Toast.LENGTH_SHORT).show()
@@ -166,7 +166,7 @@ class Pantalla_Vasos : AppCompatActivity() {
     }
 
     private fun deleteHabit() {
-        val success = habitManager.deleteHabit(getString(R.string.Vasos_de_agua))
+        val success = habitManager.deleteHabit(getString(R.string.Meditacion))
 
         if(success) {
             Toast.makeText(this, "Hábito eliminado", Toast.LENGTH_SHORT).show()

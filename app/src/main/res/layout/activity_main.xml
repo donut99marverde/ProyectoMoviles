@@ -55,7 +55,7 @@
                 android:id="@+id/button_scroll_6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/_6_minutos_de_meditaci_n" />
+                android:text="@string/_6_minutos_de_meditacion" />
 
             <Button
                 android:id="@+id/button_scroll_7"

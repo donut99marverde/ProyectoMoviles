@@ -51,10 +51,16 @@ val RECORDS_COMPLETED_DATE = "completedDate"
 class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
 
     val categories = listOf<String>(
-        context.getString(R.string.MEDITATION),
-        context.getString(R.string.EXERCISE),
-        context.getString(R.string.SLEEP),
-        context.getString(R.string.WATER))
+        context.getString(R.string.Meditacion),
+        context.getString(R.string.Rutina_de_ejercicio),
+        context.getString(R.string.Horas_de_sueño),
+        context.getString(R.string.Vasos_de_agua),
+        context.getString(R.string.Comidas_completas),
+        context.getString(R.string.Horas_antes_de_dormir_sin_celular),
+        context.getString(R.string.Raciones_de_frutas_y_vegetales),
+        context.getString(R.string.Breaks),
+        context.getString(R.string.Pasos))
+
 
 
     override fun onCreate(p0: SQLiteDatabase?) {
@@ -357,19 +363,16 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
     fun getHabit(category: String, db: SQLiteDatabase) : Habit? {
-        val id = getHabitID(category, db)
         var query = "SELECT * FROM " + ACTIVE_HABITS_TABLE + " WHERE " + ACTIVE_COL_CATEGORY + " = '$category'"
         var cursor = db.rawQuery(query, null)
         if(cursor.moveToFirst()) {
-            do {
-                val frequency = cursor.getString(2)
-                val timesPerDay = cursor.getString(3).toInt()
-                val isActive = cursor.getString(4).toInt()
-                val daysOfTheWeek = getDaysOfTheWeek(category, db)
-                val alertTimes = getAlertTimes(category, db)
-                val completed = getCompleted(category, db)
-                return Habit(category, frequency, timesPerDay, daysOfTheWeek, alertTimes, isActive, completed)
-            } while(cursor.moveToNext())
+            val frequency = cursor.getString(2)
+            val timesPerDay = cursor.getString(3).toInt()
+            val isActive = cursor.getString(4).toInt()
+            val daysOfTheWeek = getDaysOfTheWeek(category, db)
+            val alertTimes = getAlertTimes(category, db)
+            val completed = getCompleted(category, db)
+            return Habit(category, frequency, timesPerDay, daysOfTheWeek, alertTimes, isActive, completed)
         }
         return null
     }
@@ -489,17 +492,15 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             if(storedDate.day != today.day || storedDate.month != today.month || storedDate.year != today.year) {
                 cursor = db.rawQuery(query, null)
                 if(cursor.moveToFirst()) {
-                    do {
-                        val cv = contentValuesOf()
-                        cv.put(TODAY_COL_TIMES_COMPLETED, 0)
-                        cv.put(TODAY_COL_DATE, Date().toString())
-                        val success = db.update(TODAY_INFO_TABLE, cv, TODAY_COL_HABIT_ID + " =?", arrayOf(cursor.getString(0)))
+                    val cv = contentValuesOf()
+                    cv.put(TODAY_COL_TIMES_COMPLETED, 0)
+                    cv.put(TODAY_COL_DATE, Date().toString())
+                    val success = db.update(TODAY_INFO_TABLE, cv, TODAY_COL_HABIT_ID + " =?", arrayOf(cursor.getString(0)))
 
-                        if(success == -1) {
-                            return false
-                        }
-                        return true
-                    } while(cursor.moveToNext())
+                    if(success == -1) {
+                        return false
+                    }
+                    return true
                 }
             }
             return true

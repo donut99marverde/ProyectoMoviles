@@ -25,7 +25,7 @@ class habitoAdapter (var faltantes : List<ListElement> ) : RecyclerView.Adapter<
             alarmas.text = faltantes[position].alarma
             nameHabito.text = faltantes[position].nombre_habito
             TextViewEstado.text = faltantes[position].completo
-//            iconHabito.drawable = faltantes[position].habitoIcono
+            //iconHabito.drawable = faltantes[position].habitoIcono
             iconHabito.setImageDrawable(root.resources.getDrawable(faltantes[position].habitoIcono))
 //            root.resources.getDrawable(faltantes[position].habitoIcono)
         }
