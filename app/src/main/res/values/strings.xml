@@ -1,7 +1,26 @@
 <resources>
-    <string name="app_name">SQL test</string>
-    <string name="MEDITATION">meditation</string>
-    <string name="EXERCISE">exercise</string>
-    <string name="SLEEP">sleep</string>
-    <string name="WATER">water</string>
+    <string name="app_name">Habitos</string>
+    <string name="Meditacion">Meditacion</string>
+    <string name="Rutina_de_ejercicio">Rutina_de_ejercicio</string>
+    <string name="Horas_de_sueño">Horas de sueño</string>
+    <string name="Vasos_de_agua">Vasos de agua</string>
+    <string name="Comidas_completas">Comidas completas</string>
+    <string name="Raciones_de_frutas_y_vegetales">Raciones de frutas y vegetales</string>
+    <string name="Horas_antes_de_dormir_sin_celular">Horas antes de dormir sin celular</string>
+    <string name="Breaks">Breaks</string>
+    <string name="Pasos">Pasos</string>
+    <string name="_1_rutina_de_ejercicio">1 Rutina de ejercicio</string>
+    <string name="_2_horas_antes_de_dormir_sin_celular">2 Horas antes de dormir sin celular</string>
+    <string name="_9_mil_pasos">9 Mil pasos</string>
+    <string name="_3_comidas_completas">3 Comidas completas</string>
+    <string name="_4_breaks">4 Breaks</string>
+    <string name="_5_raciones_de_frutas_y_vegetales">5 Raciones de frutas y vegetales</string>
+    <string name="_6_minutos_de_meditacion">6 minutos de meditación</string>
+    <string name="_7_vasos_de_agua">7 Vasos de agua</string>
+    <string name="_8_horas_de_sue_o">8 Horas de sueño</string>
+    <string name="lo_que_me_falta_hacer_hoy">Lo que me falta hacer hoy</string>
+    <string name="reporte_semanal_mensual">Reporte semanal/mensual</string>
+    <string name="historial_de_h_bitos_completo">Historial de hábitos completo</string>
+    <string name="completado">Completado:</string>
+    <string name="sumarVasosButton">+</string>
 </resources>
