@@ -100,7 +100,7 @@
             android:text="@string/reporte_semanal_mensual" />
 
         <Button
-            android:id="@+id/button31"
+            android:id="@+id/habitoRecordsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/historial_de_h_bitos_completo" />

@@ -457,7 +457,9 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     fun updateCompleted(category: String, timesCompleted: Int) : Boolean{
         val db = this.writableDatabase
         val id = getHabitID(category, db)
+        val habit = getHabit(category)
         var success  = updateTodayInfo(db)
+
         if(!success) {
             return false
         }
@@ -474,7 +476,113 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
                 return false
             }
 
+            if(timesCompleted >= habit.timesPerDay) {
+
+                val success = createRecordForToday(category, db)
+
+                if(!success) {
+                    return true
+                }
+            } else {
+                val success = removeRecordForToday(category, db)
+
+                if(!success) {
+                    return true
+                }
+            }
+
             return true
+        }
+
+        return false
+    }
+
+    fun getRecords() : ArrayList<Record>{
+        val db = this.readableDatabase
+        var query = "SELECT * FROM " + RECORDS_TABLE
+        val cursor = db.rawQuery(query, null)
+        val records = ArrayList<Record>()
+
+        if(cursor.moveToFirst()) {
+            do {
+                val habitID = cursor.getString(1)
+                query = "SELECT * FROM " + ACTIVE_HABITS_TABLE + " WHERE " + ACTIVE_COL_HABIT_ID + " = " + "$habitID"
+                val cur = db.rawQuery(query, null)
+                var category = ""
+                val date = Date(cursor.getString(2))
+
+                if(cur.moveToFirst()) {
+                    category = cur.getString(1)
+                }
+                records.add(Record(category, date))
+            } while (cursor.moveToNext())
+        }
+
+        return records
+    }
+
+    private fun createRecordForToday(category: String, db: SQLiteDatabase) : Boolean {
+        val id = getHabitID(category, db)
+
+        if(!hasRecordToday(category, db)) {
+            val cv = contentValuesOf()
+            cv.put(RECORDS_HABIT_ID, id)
+            cv.put(RECORDS_COMPLETED_DATE, Date().toString())
+            val success = db.insert(RECORDS_TABLE, null, cv)
+
+            if(success == -1.toLong()) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    private fun removeRecordForToday(category: String, db: SQLiteDatabase) : Boolean {
+        val id = getHabitID(category, db)
+
+        if(hasRecordToday(category, db)) {
+            val query = "SELECT * FROM " + RECORDS_TABLE + " WHERE " + RECORDS_HABIT_ID + " = " + "'$id'"
+            var cursor = db.rawQuery(query, null)
+            val today = Date()
+            if(cursor.moveToNext()) {
+                do {
+                    val rowID = cursor.getString(0)
+                    val completedDate = Date(cursor.getString(2))
+                    if(completedDate.day == today.day && completedDate.month == today.month && completedDate.year == today.year) {
+                        val success = db.delete(RECORDS_TABLE, RECORDS_ID + " =?", arrayOf(rowID))
+
+                        if(success == -1) {
+                            return false
+                        }
+                        return true
+                    }
+                } while (cursor.moveToNext())
+            }
+        }
+
+        return true
+    }
+
+    private fun hasRecordToday(category: String, db: SQLiteDatabase) : Boolean {
+        val id = getHabitID(category, db)
+        val query = "SELECT * FROM " + RECORDS_TABLE + " WHERE " + RECORDS_HABIT_ID + " = " + "'$id'"
+        var cursor = db.rawQuery(query, null)
+
+        val dates = arrayListOf<Date>()
+        val today = Date()
+
+        if(cursor.moveToFirst()) {
+            do {
+                val completedDate = Date(cursor.getString(2))
+                dates.add(completedDate)
+            } while (cursor.moveToNext())
+        }
+
+        for(date in dates) {
+            if(date.day == today.day && date.month == today.month && date.year == today.year) {
+                return true
+            }
         }
 
         return false

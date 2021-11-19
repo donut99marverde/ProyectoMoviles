@@ -19,6 +19,8 @@
             android:exported="true" />
         <activity android:name=".Pantalla_Raciones_Frutas_Vegetales"
             android:exported="true" />
+        <activity android:name=".PantallaRecords"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
