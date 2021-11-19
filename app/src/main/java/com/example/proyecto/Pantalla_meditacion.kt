@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import org.w3c.dom.Text
 
 class Pantalla_Meditacion : AppCompatActivity() {
 
@@ -38,20 +39,24 @@ class Pantalla_Meditacion : AppCompatActivity() {
         }
 
         addCounter.setOnClickListener {
-            counter  += 1
-            counterTextView.text = counter.toString()
-            updateCounterData()
+            if(habitManager.isHabitActive(getString(R.string.Meditacion))) {
+                counter  += 1
+                counterTextView.text = counter.toString()
+                updateCounterData()
+            }
         }
 
         subsCounter.setOnClickListener {
-            if(counter <= 0){
-                Toast.makeText(this, "Las meditaciones hechas deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
+            if(habitManager.isHabitActive(getString(R.string.Meditacion))) {
+                if(counter <= 0){
+                    Toast.makeText(this, "Las meditaciones hechas deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    counter -= 1
+                    counterTextView.text = counter.toString()
+                }
+                updateCounterData()
             }
-            else{
-                counter -= 1
-                counterTextView.text = counter.toString()
-            }
-            updateCounterData()
         }
     }
 
@@ -123,6 +128,7 @@ class Pantalla_Meditacion : AppCompatActivity() {
     private fun addHabit() {
         val addButton = findViewById<Button>(R.id.addButton)
         val timesPerDayTextNumber = findViewById<TextView>(R.id.timesPerDayTextNumber)
+        val counterTextView = findViewById<TextView>(R.id.counterTextView)
         var timesPerDay = 0
         val frequency = "daily"
         var alertTimes = ArrayList<String>()
@@ -133,7 +139,6 @@ class Pantalla_Meditacion : AppCompatActivity() {
 
         if(timesPerDayTextNumber.text.toString().length > 0) {
             timesPerDay = timesPerDayTextNumber.text.toString().toInt()
-
         } else {
             Toast.makeText(this, "El número de hábitos se encuentra vacio", Toast.LENGTH_SHORT).show()
             return
@@ -156,6 +161,8 @@ class Pantalla_Meditacion : AppCompatActivity() {
                 return
             }
         }
+
+        counterTextView.text = "0"
 
         if(addButton.text == "Actualizar") {
             Toast.makeText(this, "Se ha actualizado el hábito", Toast.LENGTH_SHORT).show()

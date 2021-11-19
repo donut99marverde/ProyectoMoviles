@@ -38,20 +38,24 @@ class Pantalla_Raciones_Frutas_Vegetales : AppCompatActivity() {
         }
 
         addCounter.setOnClickListener {
-            counter  += 1
-            counterTextView.text = counter.toString()
-            updateCounterData()
+            if(habitManager.isHabitActive(getString(R.string.Raciones_de_frutas_y_vegetales))) {
+                counter  += 1
+                counterTextView.text = counter.toString()
+                updateCounterData()
+            }
         }
 
         subsCounter.setOnClickListener {
-            if(counter <= 0){
-                Toast.makeText(this, "Las raciones consumidas deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
+            if(habitManager.isHabitActive(getString(R.string.Raciones_de_frutas_y_vegetales))) {
+                if(counter <= 0){
+                    Toast.makeText(this, "Las raciones consumidas deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    counter -= 1
+                    counterTextView.text = counter.toString()
+                }
+                updateCounterData()
             }
-            else{
-                counter -= 1
-                counterTextView.text = counter.toString()
-            }
-            updateCounterData()
         }
     }
 
@@ -127,6 +131,7 @@ class Pantalla_Raciones_Frutas_Vegetales : AppCompatActivity() {
         val frequency = "daily"
         var alertTimes = ArrayList<String>()
         var daysOfTheWeek = ArrayList<String>()
+        val counterTextView = findViewById<TextView>(R.id.counterTextView)
         alertTimes.add("11:00")
         daysOfTheWeek.add("monday")
         daysOfTheWeek.add("wednesday")
@@ -157,6 +162,7 @@ class Pantalla_Raciones_Frutas_Vegetales : AppCompatActivity() {
             }
         }
 
+        counterTextView.text = "0"
         if(addButton.text == "Actualizar") {
             Toast.makeText(this, "Se ha actualizado el hábito", Toast.LENGTH_SHORT).show()
         } else {

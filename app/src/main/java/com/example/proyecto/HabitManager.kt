@@ -49,6 +49,10 @@ class HabitManager (context: Context) {
         return db.getHabit(category)
     }
 
+    fun getRecords() : ArrayList<Record> {
+        return db.getRecords()
+    }
+
     fun printTables() {
         db.printInfoFromAllTables()
     }
