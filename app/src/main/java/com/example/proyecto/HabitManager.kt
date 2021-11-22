@@ -53,6 +53,14 @@ class HabitManager (context: Context) {
         return db.getRecords()
     }
 
+    fun getWeeklyStats() : ArrayList<Stat> {
+        return db.weeklyStats()
+    }
+
+    fun getMonthlyStats() : ArrayList<Stat> {
+        return db.monthlyStats()
+    }
+
     fun printTables() {
         db.printInfoFromAllTables()
     }
