@@ -84,8 +84,8 @@ class Pantalla_Meditacion : AppCompatActivity() {
         val completedTextView = findViewById<TextView>(R.id.completedTextView)
         val leftTextView = findViewById<TextView>(R.id.leftTextView)
         val counterTextView = findViewById<TextView>(R.id.counterTextView)
-        addButton.setBackgroundColor(Color.BLUE)
-        deleteButton.setBackgroundColor(Color.RED)
+        addButton.setBackgroundColor(Color.parseColor("#2196f3"))
+        deleteButton.setBackgroundColor(Color.parseColor("#c63f17"))
 
         val habit = habitManager.getHabit(getString(R.string.Meditacion))
 
