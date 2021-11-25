@@ -94,7 +94,7 @@
             android:text="@string/lo_que_me_falta_hacer_hoy" />
 
         <Button
-            android:id="@+id/button30"
+            android:id="@+id/graficasButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/reporte_semanal_mensual" />

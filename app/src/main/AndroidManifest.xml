@@ -21,6 +21,8 @@
             android:exported="true" />
         <activity android:name=".PantallaRecords"
             android:exported="true" />
+        <activity android:name=".Pantalla_Graficas"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

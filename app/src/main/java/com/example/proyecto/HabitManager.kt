@@ -19,13 +19,13 @@ class HabitManager (context: Context) {
         daysOfTheWeek.add("saturday")
         daysOfTheWeek.add("sunday")
 
-        val habit = Habit(category, "daily", timesPerDay, daysOfTheWeek, alertTimes, 1)
+        val habit = Habit(category, "daily", timesPerDay, daysOfTheWeek, alertTimes, 1, 0)
         return db.addHabit(habit)
     }
 
     fun addWeeklyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>, daysOfTheWeek: ArrayList<String>) : Boolean {
         deleteHabit(category)
-        val habit = Habit(category, "weekly", timesPerDay, daysOfTheWeek, alertTimes, 1)
+        val habit = Habit(category, "weekly", timesPerDay, daysOfTheWeek, alertTimes, 1, 0)
         return db.addHabit(habit)
     }
 

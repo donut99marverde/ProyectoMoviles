@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Habitos</string>
     <string name="Meditacion">Meditacion</string>
-    <string name="Rutina_de_ejercicio">Rutina_de_ejercicio</string>
+    <string name="Rutina_de_ejercicio">Rutina de ejercicio</string>
     <string name="Horas_de_sueño">Horas de sueño</string>
     <string name="Vasos_de_agua">Vasos de agua</string>
     <string name="Comidas_completas">Comidas completas</string>

@@ -14,12 +14,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val context = this
-        context.deleteDatabase("Habits")
+        //context.deleteDatabase("Habits")
         val habitManager = HabitManager(context)
         val habit5Button = findViewById<Button>(R.id.button_scroll_5)
         val habit6Button = findViewById<Button>(R.id.button_scroll_6)
         val habit7Button = findViewById<Button>(R.id.button_scroll_7);
         val habitoHOY = findViewById<Button>(R.id.button_habitoHoy)
+        val habitoGraficas = findViewById<Button>(R.id.graficasButton)
         val habitoRecords = findViewById<Button>(R.id.habitoRecordsButton)
 
         habit5Button.setOnClickListener {
@@ -39,6 +40,11 @@ class MainActivity : AppCompatActivity() {
 
         habitoHOY.setOnClickListener(){
             val intent = Intent(this,pantalla_habito_faltante::class.java)
+            startActivity(intent)
+        }
+
+        habitoGraficas.setOnClickListener {
+            val intent = Intent(this, Pantalla_Graficas::class.java)
             startActivity(intent)
         }
 
