@@ -616,6 +616,55 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return false
     }
 
+    fun weeklyStats() : ArrayList<Stat>{
+        val stats = ArrayList<Stat>()
+
+        for(category in categories) {
+            stats.add(Stat(category, completedStats(category, "weekly")))
+        }
+
+        return stats
+    }
+
+    fun monthlyStats() : ArrayList<Stat>{
+        val stats = ArrayList<Stat>()
+
+        for(category in categories) {
+            stats.add(Stat(category, completedStats(category, "monthly")))
+        }
+
+        return stats
+    }
+
+    private fun completedStats(category: String, type: String) : Int {
+        var counter = 0
+        val db = this.readableDatabase
+        val id = getHabitID(category, db)
+        val query = "SELECT * FROM " + RECORDS_TABLE + " WHERE " + RECORDS_HABIT_ID + " = " + "'$id'"
+        var cursor = db.rawQuery(query, null)
+        val today = Calendar.getInstance()
+
+        if(cursor.moveToFirst()) {
+            do {
+                val completedDate = Date(cursor.getString(2))
+                val cal = Calendar.getInstance()
+                cal.setTime(completedDate)
+
+                if(type == "monthly") {
+                    if(today.weekYear == cal.weekYear && today.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) {
+                        counter++
+                    }
+                } else {
+                    if(today.get(Calendar.MONTH) == cal.get(Calendar.MONTH) && today.get(Calendar.YEAR) == cal.get(Calendar.YEAR)) {
+                        counter++
+                    }
+                }
+            } while (cursor.moveToNext())
+        }
+
+        return counter
+    }
+
     fun printInfoFromAllTables() {
         val db = this.readableDatabase
         println("DATA FROM ALL TABLES")
