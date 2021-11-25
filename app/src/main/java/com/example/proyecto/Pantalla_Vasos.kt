@@ -106,10 +106,12 @@ class Pantalla_Vasos : AppCompatActivity() {
             }
 
             statusTextView.text = status
+            statusTextView.setBackgroundColor(Color.parseColor("#c8e6c9"))
             completedTextView.text = habit.completed.toString()
 
         } else {
             statusTextView.text = "El hábito no esta activo"
+            statusTextView.setBackgroundColor(Color.parseColor("#ff867c"))
             addButton.text = "Agregar"
             deleteButton.isEnabled = false
             timesPerDayTextNumber.text = "0"

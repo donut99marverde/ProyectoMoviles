@@ -86,6 +86,7 @@ class Pantalla_Meditacion : AppCompatActivity() {
         val counterTextView = findViewById<TextView>(R.id.counterTextView)
         addButton.setBackgroundColor(Color.parseColor("#2196f3"))
         deleteButton.setBackgroundColor(Color.parseColor("#c63f17"))
+        statusTextView.setPadding(20, 20, 20, 20)
 
         val habit = habitManager.getHabit(getString(R.string.Meditacion))
 
@@ -108,10 +109,12 @@ class Pantalla_Meditacion : AppCompatActivity() {
             }
 
             statusTextView.text = status
+            statusTextView.setBackgroundColor(Color.parseColor("#c8e6c9"))
             completedTextView.text = habit.completed.toString()
 
         } else {
             statusTextView.text = "El hábito no esta activo"
+            statusTextView.setBackgroundColor(Color.parseColor("#ff867c"))
             addButton.text = "Agregar"
             deleteButton.isEnabled = false
             timesPerDayTextNumber.text = "0"

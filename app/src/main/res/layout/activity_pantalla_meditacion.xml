@@ -52,13 +52,16 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vasos de agua consumidos:" />
+                android:text="Meditaciones realizadas:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/completedTextView"
-                android:layout_width="99dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,13 +73,16 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vasos de agua restantes:" />
+                android:text="Meditaciones restantes:"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/leftTextView"
-                android:layout_width="119dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -98,10 +104,12 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="49dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
         android:text="Número de meditaciones al día:"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/timesPerDayTextNumber"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,10 +117,9 @@
 
     <EditText
         android:id="@+id/timesPerDayTextNumber"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:ems="10"
         android:inputType="number"
@@ -131,6 +138,8 @@
         android:layout_marginEnd="35dp"
         android:layout_marginBottom="41dp"
         android:text="activo"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/timesPerDayTextNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -171,6 +180,8 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
         android:text="Definir alarma recordatorio:"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/addButton"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +206,6 @@
         android:layout_width="57dp"
         android:layout_height="51dp"
         android:layout_marginStart="108dp"
-        android:layout_marginBottom="60dp"
         android:text="-"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/sumar"
@@ -223,13 +233,15 @@
         android:id="@+id/counterTextView"
         android:layout_width="63dp"
         android:layout_height="57dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="36dp"
+        android:layout_marginEnd="10dp"
+
         android:text="0"
         android:textAlignment="center"
         android:textSize="48sp"
-
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sumar"
         app:layout_constraintStart_toEndOf="@id/restar"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
         app:layout_constraintVertical_bias="0.0" />

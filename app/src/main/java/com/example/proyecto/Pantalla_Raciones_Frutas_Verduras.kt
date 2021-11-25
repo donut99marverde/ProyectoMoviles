@@ -15,7 +15,7 @@ class Pantalla_Raciones_Frutas_Vegetales : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pantalla_raciones_frutas_vegetales)
+        setContentView(R.layout.activity_pantalla_raciones_frutas_verduras)
         title = "Raciones de frutas y vegetales"
         habitManager = HabitManager(this)
         val habit = habitManager.getHabit(getString(R.string.Raciones_de_frutas_y_vegetales))
@@ -85,7 +85,7 @@ class Pantalla_Raciones_Frutas_Vegetales : AppCompatActivity() {
         val counterTextView = findViewById<TextView>(R.id.counterTextView)
         addButton.setBackgroundColor(Color.parseColor("#2196f3"))
         deleteButton.setBackgroundColor(Color.parseColor("#c63f17"))
-
+        statusTextView.setPadding(20, 20, 20, 20)
         val habit = habitManager.getHabit(getString(R.string.Raciones_de_frutas_y_vegetales))
 
         habitManager.printHabitObj(habit)
@@ -107,10 +107,12 @@ class Pantalla_Raciones_Frutas_Vegetales : AppCompatActivity() {
             }
 
             statusTextView.text = status
+            statusTextView.setBackgroundColor(Color.parseColor("#c8e6c9"))
             completedTextView.text = habit.completed.toString()
 
         } else {
             statusTextView.text = "El hábito no esta activo"
+            statusTextView.setBackgroundColor(Color.parseColor("#ff867c"))
             addButton.text = "Agregar"
             deleteButton.isEnabled = false
             timesPerDayTextNumber.text = "0"
