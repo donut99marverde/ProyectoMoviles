@@ -511,6 +511,19 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return records
     }
 
+    fun numberOfCategoriesWithARecordToday() : Int {
+        val db = this.readableDatabase
+        val records = ArrayList<Record>()
+        var completed = 0
+
+        for(category in categories) {
+            if(hasRecordToday(category, db)) {
+                completed++
+            }
+        }
+        return completed
+    }
+
     private fun createRecordForToday(category: String, db: SQLiteDatabase) : Boolean {
         val id = getHabitID(category, db)
 
