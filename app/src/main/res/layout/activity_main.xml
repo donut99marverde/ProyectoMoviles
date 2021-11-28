@@ -25,7 +25,8 @@
                 android:id="@+id/button_scroll_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/_1_rutina_de_ejercicio" />
+                android:text="@string/_1_rutina_de_ejercicio"
+                />
 
             <Button
                 android:id="@+id/button_scroll_2"

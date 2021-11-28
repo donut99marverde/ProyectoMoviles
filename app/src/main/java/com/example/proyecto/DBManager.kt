@@ -3,6 +3,8 @@ package com.example.proyecto
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.content.contentValuesOf
 import java.time.LocalDate
 import java.util.*
@@ -164,11 +166,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         }
 
         if(!setWeekdays(habit, habitID,  db)) {
-            return  false;
-        }
-
-        if(!setAlertTimes(habit, habitID, db)) {
-            return false
+            return  false
         }
 
         db.close()
@@ -208,8 +206,8 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         cvDaysOfWeek.put(DAYS_COL_ON_SATURDAY, "0")
         cvDaysOfWeek.put(DAYS_COL_ON_SUNDAY, "0")
 
-        for (weekday in habit.daysOfTheWeek!!) {
-            cvDaysOfWeek.put(weekday, "1")
+        for (weekday in habit.daysOfTheWeek) {
+            cvDaysOfWeek.put(translateWeekday(weekday), "1")
         }
 
         val success = db.update(DAYS_OF_THE_WEEK_TABLE, cvDaysOfWeek, DAYS_COL_HABIT_ID + " = ?", arrayOf(habitID))
@@ -220,24 +218,18 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return true
     }
 
-    private fun setAlertTimes(habit: Habit, habitID: String, db: SQLiteDatabase) : Boolean{
-        val cvTimeOfTheDay = contentValuesOf()
-        if(habit.alertTimes != null) {
-            for(alertTime in habit.alertTimes!!) {
-                val hour = alertTime.substring(0, 2)
-                val minutes = alertTime.substring(3, 5)
-                cvTimeOfTheDay.put(TIME_COL_HABIT_ID, habitID)
-                cvTimeOfTheDay.put(TIME_COL_HOUR, hour)
-                cvTimeOfTheDay.put(TIME_COL_MINUTES, minutes)
-                val success = db.insert(TIME_OF_THE_DAY_TABLE, null, cvTimeOfTheDay)
-
-                if(success == -1.toLong()) {
-                    return false
-                }
-            }
+    private fun translateWeekday(weekday: String) : String {
+        return when(weekday){
+            "Lunes" -> "monday"
+            "Martes" -> "tuesday"
+            "Miercoles" -> "wednesday"
+            "Jueves" -> "thursday"
+            "Viernes" -> "friday"
+            "Sabado" -> "saturday"
+            else -> "sunday"
         }
-        return true
     }
+
 
     fun deleteHabit(category: String) : Boolean {
         val db = this.writableDatabase
@@ -327,6 +319,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return false
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun todayHabits() : ArrayList<Habit> {
         val db = this.readableDatabase
         val list = ArrayList<Habit>()
@@ -342,6 +335,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return list
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun today(category: String, db: SQLiteDatabase) : Boolean {
         val id = getHabitID(category, db)
 
@@ -352,11 +346,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             if(cursor.moveToFirst()) {
                 if(cursor.getString(0) == "1") {
                     return true
-                } else {
-                    return false
                 }
-            } else {
-                return false
             }
         }
         return false
@@ -372,7 +362,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
             val daysOfTheWeek = getDaysOfTheWeek(category, db)
             val alertTimes = getAlertTimes(category, db)
             val completed = getCompleted(category, db)
-            return Habit(category, frequency, timesPerDay, daysOfTheWeek, alertTimes, isActive, completed)
+            return Habit(category, frequency, timesPerDay, daysOfTheWeek, isActive, completed)
         }
         return null
     }
@@ -385,31 +375,31 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         if(cursor.moveToFirst()) {
             do {
                 if(cursor.getString(1) == "1") {
-                    list.add("monday")
+                    list.add("Lunes")
                 }
 
                 if(cursor.getString(2) == "1") {
-                    list.add("tuesday")
+                    list.add("Martes")
                 }
 
                 if(cursor.getString(3) == "1") {
-                    list.add("wednesday")
+                    list.add("Miercoles")
                 }
 
                 if(cursor.getString(4) == "1") {
-                    list.add("thursday")
+                    list.add("Jueves")
                 }
 
                 if(cursor.getString(5) == "1") {
-                    list.add("friday")
+                    list.add("Viernes")
                 }
 
                 if(cursor.getString(6) == "1") {
-                    list.add("saturday")
+                    list.add("Sabado")
                 }
 
                 if(cursor.getString(7) == "1") {
-                    list.add("sunday")
+                    list.add("Domingo")
                 }
             } while(cursor.moveToNext())
         }
@@ -616,6 +606,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return false
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun weeklyStats() : ArrayList<Stat>{
         val stats = ArrayList<Stat>()
 
@@ -626,6 +617,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return stats
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun monthlyStats() : ArrayList<Stat>{
         val stats = ArrayList<Stat>()
 
@@ -636,6 +628,7 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
         return stats
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun completedStats(category: String, type: String) : Int {
         var counter = 0
         val db = this.readableDatabase

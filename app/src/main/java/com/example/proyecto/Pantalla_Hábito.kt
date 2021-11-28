@@ -1,32 +1,39 @@
 package com.example.proyecto
 
+import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import org.w3c.dom.Text
 
-class Pantalla_Meditacion : AppCompatActivity() {
+class Pantalla_Hábito : AppCompatActivity() {
 
     private lateinit var habitManager: HabitManager
-
+    private lateinit var category : String
     var counter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pantalla_meditacion)
-        title = "Meditacion"
-        habitManager = HabitManager(this)
-        val habit = habitManager.getHabit(getString(R.string.Meditacion))
-
+        setContentView(R.layout.activity_pantalla_habito)
+        val intent = intent
         val addButton = findViewById<Button>(R.id.addButton)
         val deleteButton = findViewById<Button>(R.id.deleteButton)
+        val timesPerDayTextView = findViewById<TextView>(R.id.timesPerDayTextView)
+        val completedLabel = findViewById<TextView>(R.id.completedLabel)
+        val leftLabel = findViewById<TextView>(R.id.leftLabel)
         val addCounter = findViewById<Button>(R.id.sumar)
         val subsCounter = findViewById<Button>(R.id.restar)
-        val counterTextView = findViewById<TextView>(R.id.counterTextView)
-        val leftTextView = findViewById<TextView>(R.id.leftTextView)
+
+        category = intent.getStringExtra("category")!!
+        title = category
+        timesPerDayTextView.text = intent.getStringExtra("timePerDayTextView")!!
+        completedLabel.text = intent.getStringExtra("completedLabel")
+        leftLabel.text = intent.getStringExtra("leftLabel")
+
+        habitManager = HabitManager(this)
 
         updateViews()
 
@@ -39,41 +46,32 @@ class Pantalla_Meditacion : AppCompatActivity() {
         }
 
         addCounter.setOnClickListener {
-            if(habitManager.isHabitActive(getString(R.string.Meditacion))) {
-                counter  += 1
-                counterTextView.text = counter.toString()
-                updateCounterData()
-            }
+            incrementCounter()
         }
 
         subsCounter.setOnClickListener {
-            if(habitManager.isHabitActive(getString(R.string.Meditacion))) {
-                if(counter <= 0){
-                    Toast.makeText(this, "Las meditaciones hechas deben ser igual o mayor a cero", Toast.LENGTH_SHORT).show()
-                }
-                else{
-                    counter -= 1
-                    counterTextView.text = counter.toString()
-                }
-                updateCounterData()
-            }
+            substractCounter()
         }
     }
 
-
-    private fun updateCounterData() {
-        val completedTextView = findViewById<TextView>(R.id.completedTextView)
-        val leftTextView = findViewById<TextView>(R.id.leftTextView)
-        habitManager.setCompleted(getString(R.string.Meditacion), counter);
-        val habit = habitManager.getHabit(getString(R.string.Meditacion))
-
-        if((habit.timesPerDay - counter) <= 0){
-            leftTextView.text = "0"
+    private fun incrementCounter() {
+        val counterTextView = findViewById<TextView>(R.id.counterTextView)
+        if(habitManager.isHabitActive(category)) {
+            counter  += 1
+            counterTextView.text = counter.toString()
+            //actualizar en DB
+            habitManager.setCompleted(category, counter)
+            updateViews()
         }
-        else{
-            leftTextView.text = (habit.timesPerDay - counter).toString()
+    }
+
+    private fun substractCounter() {
+        if(habitManager.isHabitActive(category) && counter > 0) {
+            counter -= 1
+            //actualizar en DB
+            habitManager.setCompleted(category, counter)
+            updateViews()
         }
-        completedTextView.text = counter.toString()
     }
 
     private fun updateViews() {
@@ -84,43 +82,51 @@ class Pantalla_Meditacion : AppCompatActivity() {
         val completedTextView = findViewById<TextView>(R.id.completedTextView)
         val leftTextView = findViewById<TextView>(R.id.leftTextView)
         val counterTextView = findViewById<TextView>(R.id.counterTextView)
-        addButton.setBackgroundColor(Color.BLUE)
-        deleteButton.setBackgroundColor(Color.RED)
 
-        val habit = habitManager.getHabit(getString(R.string.Meditacion))
+        addButton.setBackgroundColor(Color.parseColor("#2196f3"))
+        statusTextView.setPadding(20, 20, 20, 20)
 
-        habitManager.printHabitObj(habit)
+        val habit = habitManager.getHabit(category)
 
         if(habit.isActive == 1) {
-            var status = "El habito se encuentra activo"
+            var status = "El habito se encuentra activo "
             addButton.text = "Actualizar"
             deleteButton.isEnabled = true
             timesPerDayTextNumber.text = habit.timesPerDay.toString()
 
-            if(habit.alertTimes != null) {
-                status += " en los siguientes horarios: "
-
-                for(time in habit.alertTimes!!) {
-                    status += time + " "
-                }
+            if(habit.frequency == "daily") {
+                status += "todos los dias"
             } else {
-                status += " sin un horario en específico"
+                status += "los siguientes dias"
+                for(weekday in habit.daysOfTheWeek) {
+                    status += weekday
+                }
             }
 
             statusTextView.text = status
+            statusTextView.setBackgroundColor(Color.parseColor("#c8e6c9"))
+            deleteButton.setBackgroundColor(Color.parseColor("#c63f17"))
             completedTextView.text = habit.completed.toString()
 
         } else {
             statusTextView.text = "El hábito no esta activo"
+            statusTextView.setBackgroundColor(Color.parseColor("#ff867c"))
+            deleteButton.setBackgroundColor(Color.parseColor("#ef9a9a"))
             addButton.text = "Agregar"
             deleteButton.isEnabled = false
             timesPerDayTextNumber.text = "0"
             completedTextView.text = "0"
         }
 
+        /*Actualizar completados, restantes y contador*/
         counter = habit.completed
         completedTextView.text = counter.toString()
-        leftTextView.text = (habit.timesPerDay - habit.completed).toString()
+
+        if((habit.timesPerDay - counter) <= 0){
+            leftTextView.text = "0"
+        } else {
+            leftTextView.text = (habit.timesPerDay - habit.completed).toString()
+        }
         counterTextView.text = counter.toString()
     }
 
@@ -129,32 +135,30 @@ class Pantalla_Meditacion : AppCompatActivity() {
         val addButton = findViewById<Button>(R.id.addButton)
         val timesPerDayTextNumber = findViewById<TextView>(R.id.timesPerDayTextNumber)
         val counterTextView = findViewById<TextView>(R.id.counterTextView)
-        var timesPerDay = 0
+        var timesPerDay : Int
         val frequency = "daily"
-        var alertTimes = ArrayList<String>()
         var daysOfTheWeek = ArrayList<String>()
-        alertTimes.add("11:00")
-        daysOfTheWeek.add("monday")
-        daysOfTheWeek.add("wednesday")
+        daysOfTheWeek.add("Lunes")
+        daysOfTheWeek.add("Martes")
 
-        if(timesPerDayTextNumber.text.toString().length > 0) {
+        if(timesPerDayTextNumber.text.toString().isNotEmpty()) {
             timesPerDay = timesPerDayTextNumber.text.toString().toInt()
         } else {
             Toast.makeText(this, "El número de hábitos se encuentra vacio", Toast.LENGTH_SHORT).show()
             return
         }
 
-        var success = false
+        var success : Boolean
 
         if(frequency == "daily") {
-            success = habitManager.addDailyHabit(getString(R.string.Meditacion), timesPerDay, alertTimes)
+            success = habitManager.addDailyHabit(category, timesPerDay)
 
             if(!success) {
                 Toast.makeText(this, "Ocurrió un error al agregar el hábito diario", Toast.LENGTH_SHORT).show()
                 return
             }
         } else {
-            success = habitManager.addWeeklyHabit(getString(R.string.Meditacion), timesPerDay, alertTimes, daysOfTheWeek)
+            success = habitManager.addWeeklyHabit(category, timesPerDay, daysOfTheWeek)
 
             if(!success) {
                 Toast.makeText(this, "Ocurrió un error al agregar el hábito semanal", Toast.LENGTH_SHORT).show()
@@ -173,7 +177,7 @@ class Pantalla_Meditacion : AppCompatActivity() {
     }
 
     private fun deleteHabit() {
-        val success = habitManager.deleteHabit(getString(R.string.Meditacion))
+        val success = habitManager.deleteHabit(category)
 
         if(success) {
             Toast.makeText(this, "Hábito eliminado", Toast.LENGTH_SHORT).show()
@@ -182,5 +186,4 @@ class Pantalla_Meditacion : AppCompatActivity() {
         }
         updateViews()
     }
-
 }

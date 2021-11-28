@@ -27,6 +27,7 @@ class Pantalla_Graficas : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = GraficaHabitosBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = "Reporte"
         val weeklyButton = findViewById<Button>(R.id.weeklyButton)
         val monthlyButton = findViewById<Button>(R.id.monthlyButton)
 
