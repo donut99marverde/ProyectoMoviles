@@ -13,14 +13,13 @@ class HabitManager (context: Context) {
     fun addDailyHabit(category: String, timesPerDay: Int) : Boolean {
         deleteHabit(category)
         val daysOfTheWeek = ArrayList<String>()
-        daysOfTheWeek.add("monday")
-        daysOfTheWeek.add("tuesday")
-        daysOfTheWeek.add("wednesday")
-        daysOfTheWeek.add("thursday")
-        daysOfTheWeek.add("friday")
-        daysOfTheWeek.add("saturday")
-        daysOfTheWeek.add("sunday")
-
+        daysOfTheWeek.add("Lunes")
+        daysOfTheWeek.add("Martes")
+        daysOfTheWeek.add("Miercoles")
+        daysOfTheWeek.add("Jueves")
+        daysOfTheWeek.add("Viernes")
+        daysOfTheWeek.add("Sabado")
+        daysOfTheWeek.add("Domingo")
         val habit = Habit(category, "daily", timesPerDay, daysOfTheWeek, 1, 0)
         return db.addHabit(habit)
     }
@@ -68,6 +67,10 @@ class HabitManager (context: Context) {
 
     fun printTables() {
         db.printInfoFromAllTables()
+    }
+
+    fun numberOfCategoriesWithARecordToday() : Int {
+        return db.numberOfCategoriesWithARecordToday()
     }
 
     fun printHabitObj(habit: Habit)  {

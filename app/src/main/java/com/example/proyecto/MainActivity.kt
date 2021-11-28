@@ -4,16 +4,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.os.Build
+import android.widget.ProgressBar
+import androidx.annotation.RequiresApi
 
 
 class MainActivity : AppCompatActivity() {
+
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        title = "Hábitos"
         val context = this
         context.deleteDatabase("Habits")
-        val habitManager = HabitManager(context)
         val habit4Button = findViewById<Button>(R.id.button_scroll_4)
         val habit5Button = findViewById<Button>(R.id.button_scroll_5)
         val habit6Button = findViewById<Button>(R.id.button_scroll_6)
@@ -21,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         val habitoHOY = findViewById<Button>(R.id.button_habitoHoy)
         val habitoGraficas = findViewById<Button>(R.id.graficasButton)
         val habitoRecords = findViewById<Button>(R.id.habitoRecordsButton)
+
+        setProgressBar()
+
 
         habit4Button.setOnClickListener {
             val intent = Intent(this, Pantalla_Hábito::class.java)
@@ -71,6 +83,37 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, PantallaRecords::class.java)
             startActivity(intent)
         }
+    }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override fun onResume() {
+        super.onResume()
+        setProgressBar()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun setProgressBar() {
+        val habitManager = HabitManager(this)
+        val todayHabits = habitManager.todayHabits()
+        val numberOfCategoriesWithARecordToday = habitManager.numberOfCategoriesWithARecordToday()
+
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.min = 0
+        progressBar.max = 100
+        progressBar.progressTintList = ColorStateList.valueOf(Color.GREEN)
+
+        if(todayHabits.size == 0) {
+            progressBar.progress = 0
+        } else {
+            progressBar.progress =  (numberOfCategoriesWithARecordToday.toFloat() / todayHabits.size.toFloat() * 100.0).toInt()
+        }
+
+        if(progressBar.progress >= 80) {
+            progressBar.progressTintList = ColorStateList.valueOf(Color.GREEN)
+        } else if(progressBar.progress >= 40) {
+            progressBar.progressTintList = ColorStateList.valueOf(Color.YELLOW)
+        } else {
+            progressBar.progressTintList = ColorStateList.valueOf(Color.RED)
+        }
     }
 }
