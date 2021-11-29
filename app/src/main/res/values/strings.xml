@@ -23,4 +23,9 @@
     <string name="historial_de_h_bitos_completo">Historial de hábitos completo</string>
     <string name="completado">Completado:</string>
     <string name="sumarVasosButton">+</string>
+
+    <string-array name="country_location">
+        <item>Diario</item>
+        <item>Semanal</item>
+    </string-array>
 </resources>

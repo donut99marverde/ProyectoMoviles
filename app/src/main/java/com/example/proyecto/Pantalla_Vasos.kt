@@ -1,21 +1,43 @@
 package com.example.proyecto
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import com.example.proyecto.databinding.ActivityPantallaHabitoFaltanteBinding
+import com.example.proyecto.databinding.ActivityPantallaVasosBinding
 
-class Pantalla_Vasos : AppCompatActivity() {
+class Pantalla_Vasos : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private lateinit var habitManager: HabitManager
 
     var counter = 0
+    //        dropdown
+    private lateinit var binding: ActivityPantallaVasosBinding
+//        dropdown
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //        dropdown
+        binding = ActivityPantallaVasosBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val valores = resources.getStringArray(R.array.country_location)
+        val adapter = ArrayAdapter(
+            this,
+            R.layout.list_item,
+            valores
+        )
+        with(binding.autoCompleteTextView4){
+            setAdapter(adapter)
+            onItemClickListener = this@Pantalla_Vasos
+        }
+//        dropdown
+
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pantalla_vasos)
+        //setContentView(R.layout.activity_pantalla_vasos)
         title = "Vasos de agua"
         habitManager = HabitManager(this)
         val habit = habitManager.getHabit(getString(R.string.Vasos_de_agua))
@@ -181,5 +203,13 @@ class Pantalla_Vasos : AppCompatActivity() {
         }
         updateViews()
     }
+    //dropdown
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val item = parent?.getItemAtPosition(position).toString()
+        Toast.makeText(this@Pantalla_Vasos, item, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this,pantalla_habito_faltante::class.java)
+        startActivity(intent)
+    }
+    //dropdown
 
 }
