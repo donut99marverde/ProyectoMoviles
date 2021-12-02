@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Pantalla_Vasos">
+    tools:context=".Pantalla_Habito">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="38dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,16 +53,15 @@
                 android:id="@+id/completedLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Meditaciones realizadas:"
+                android:text="Vasos de agua consumidos hoy:"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/completedTextView"
-                android:layout_width="match_parent"
+                android:layout_width="99dp"
                 android:layout_height="match_parent"
-                android:text="TextView"
-                android:textSize="16sp" />
+                android:text="TextView" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,16 +73,15 @@
                 android:id="@+id/leftLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Meditaciones restantes:"
+                android:text="Vasos de agua restantes:"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/leftTextView"
-                android:layout_width="match_parent"
+                android:layout_width="119dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textSize="16sp" />
+                android:text="TextView" />
         </LinearLayout>
     </LinearLayout>
 
@@ -95,6 +94,8 @@
         android:layout_marginEnd="194dp"
         android:layout_marginBottom="101dp"
         android:text="Mensaje personalizado sobre el hábito"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,10 +105,10 @@
         android:id="@+id/timesPerDayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="49dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
-        android:text="Número de meditaciones al día:"
+        android:text="Número de vasos:"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/timesPerDayTextNumber"
@@ -117,17 +118,17 @@
 
     <EditText
         android:id="@+id/timesPerDayTextNumber"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:ems="10"
         android:inputType="number"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/timesPerDayTextView"
         app:layout_constraintTop_toBottomOf="@+id/statusTextView"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
     <TextView
         android:id="@+id/statusTextView"
@@ -149,101 +150,75 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="79dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="15dp"
         android:text="Agregar"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toStartOf="@+id/deleteButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/timesPerDayTextView" />
 
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="79dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="38dp"
         android:text="Eliminar"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/addButton"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/timesPerDayTextView" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:text="Definir alarma recordatorio:"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/addButton"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timesPerDayTextNumber" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="134dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/deleteButton"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/timesPerDayTextNumber"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_action_name" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addButton">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:hint="Frecuencia" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/restar"
         android:layout_width="57dp"
         android:layout_height="51dp"
-        android:layout_marginStart="108dp"
+        android:layout_marginStart="88dp"
         android:text="-"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/sumar"
-        app:layout_constraintEnd_toStartOf="@id/counterTextView"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sumar"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     <Button
         android:id="@+id/sumar"
         android:layout_width="57dp"
         android:layout_height="51dp"
-        android:layout_marginEnd="108dp"
         android:text="+"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/counterTextView"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.4" />
+        app:layout_constraintStart_toEndOf="@+id/restar"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     <TextView
         android:id="@+id/counterTextView"
         android:layout_width="63dp"
         android:layout_height="57dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="10dp"
 
         android:text="0"
         android:textAlignment="center"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sumar"
-        app:layout_constraintStart_toEndOf="@id/restar"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toEndOf="@+id/restar"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

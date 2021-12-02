@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyecto">
         <activity
-            android:name=".Pantalla_Hábito"
+            android:name=".Pantalla_Habito"
             android:exported="true" />
         <activity
             android:name=".pantalla_habito_faltante"

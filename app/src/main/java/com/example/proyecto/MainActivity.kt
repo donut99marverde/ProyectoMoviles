@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Build
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
@@ -35,37 +32,37 @@ class MainActivity : AppCompatActivity() {
 
 
         habit4Button.setOnClickListener {
-            val intent = Intent(this, Pantalla_Hábito::class.java)
+            val intent = Intent(this, Pantalla_Habito::class.java)
             startActivity(intent)
         }
 
         //raciones de frutas y verduras
         habit5Button.setOnClickListener {
-            val intent = Intent(this, Pantalla_Hábito::class.java)
+            val intent = Intent(this, Pantalla_Habito::class.java)
             intent.putExtra("category", getString(R.string.Raciones_de_frutas_y_vegetales))
-            intent.putExtra("timePerDayTextView", "Número de raciones al día")
-            intent.putExtra("completedLabel", "Raciones consumidas")
-            intent.putExtra("leftLabel", "Raciones restantes")
+            intent.putExtra("timePerDayTextView", "Número de raciones al día: ")
+            intent.putExtra("completedLabel", "Raciones consumidas: ")
+            intent.putExtra("leftLabel", "Raciones restantes: ")
             startActivity(intent)
         }
 
         //meditación
         habit6Button.setOnClickListener {
-            val intent = Intent(this, Pantalla_Hábito::class.java)
+            val intent = Intent(this, Pantalla_Habito::class.java)
             intent.putExtra("category", getString(R.string.Meditacion))
-            intent.putExtra("timePerDayTextView", "Número de meditaciones al día")
-            intent.putExtra("completedLabel", "Meditaciones realizadas")
-            intent.putExtra("leftLabel", "Meditaciones restantes")
+            intent.putExtra("timePerDayTextView", "Número de meditaciones al día: ")
+            intent.putExtra("completedLabel", "Meditaciones realizadas:")
+            intent.putExtra("leftLabel", "Meditaciones restantes: ")
             startActivity(intent)
         }
 
         //vasos de agus
         habit7Button.setOnClickListener(){
-            val intent = Intent(this,Pantalla_Hábito::class.java)
+            val intent = Intent(this,Pantalla_Habito::class.java)
             intent.putExtra("category", getString(R.string.Vasos_de_agua))
-            intent.putExtra("timePerDayTextView", "Vasos de agua al día")
-            intent.putExtra("completedLabel", "Vasos de agua tomados")
-            intent.putExtra("leftLabel", "Vasos de agua restantes")
+            intent.putExtra("timePerDayTextView", "Vasos de agua al día: ")
+            intent.putExtra("completedLabel", "Vasos de agua tomados: ")
+            intent.putExtra("leftLabel", "Vasos de agua restantes: ")
             startActivity(intent)
         }
 
