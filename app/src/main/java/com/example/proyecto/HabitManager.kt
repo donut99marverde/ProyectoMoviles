@@ -1,6 +1,8 @@
 package com.example.proyecto
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -8,24 +10,23 @@ class HabitManager (context: Context) {
 
     var db = DBManager(context)
 
-    fun addDailyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>?) : Boolean {
+    fun addDailyHabit(category: String, timesPerDay: Int) : Boolean {
         deleteHabit(category)
         val daysOfTheWeek = ArrayList<String>()
-        daysOfTheWeek.add("monday")
-        daysOfTheWeek.add("tuesday")
-        daysOfTheWeek.add("wednesday")
-        daysOfTheWeek.add("thursday")
-        daysOfTheWeek.add("friday")
-        daysOfTheWeek.add("saturday")
-        daysOfTheWeek.add("sunday")
-
-        val habit = Habit(category, "daily", timesPerDay, daysOfTheWeek, alertTimes, 1)
+        daysOfTheWeek.add("Lunes")
+        daysOfTheWeek.add("Martes")
+        daysOfTheWeek.add("Miercoles")
+        daysOfTheWeek.add("Jueves")
+        daysOfTheWeek.add("Viernes")
+        daysOfTheWeek.add("Sabado")
+        daysOfTheWeek.add("Domingo")
+        val habit = Habit(category, "daily", timesPerDay, daysOfTheWeek, 1, 0)
         return db.addHabit(habit)
     }
 
-    fun addWeeklyHabit(category: String, timesPerDay: Int, alertTimes: ArrayList<String>, daysOfTheWeek: ArrayList<String>) : Boolean {
+    fun addWeeklyHabit(category: String, timesPerDay: Int, daysOfTheWeek: ArrayList<String>) : Boolean {
         deleteHabit(category)
-        val habit = Habit(category, "weekly", timesPerDay, daysOfTheWeek, alertTimes, 1)
+        val habit = Habit(category, "weekly", timesPerDay, daysOfTheWeek, 1, 0)
         return db.addHabit(habit)
     }
 
@@ -37,6 +38,7 @@ class HabitManager (context: Context) {
         return db.updateCompleted(category, completedToday)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun todayHabits() : ArrayList<Habit>{
         return db.todayHabits()
     }
@@ -53,8 +55,22 @@ class HabitManager (context: Context) {
         return db.getRecords()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun getWeeklyStats() : ArrayList<Stat> {
+        return db.weeklyStats()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun getMonthlyStats() : ArrayList<Stat> {
+        return db.monthlyStats()
+    }
+
     fun printTables() {
         db.printInfoFromAllTables()
+    }
+
+    fun numberOfCategoriesWithARecordToday() : Int {
+        return db.numberOfCategoriesWithARecordToday()
     }
 
     fun printHabitObj(habit: Habit)  {
@@ -64,18 +80,6 @@ class HabitManager (context: Context) {
         print(habit.frequency)
         print(" times per day = ")
         print(habit.timesPerDay)
-        print(" alert times = ")
-
-        if(habit.alertTimes != null) {
-            print("[")
-            for (alert in habit.alertTimes!!) {
-                print(alert)
-                print(",")
-            }
-            print("] ")
-        } else {
-            print(" no alert times ")
-        }
 
         print("weekdays = [")
         for(weekday in habit.daysOfTheWeek) {

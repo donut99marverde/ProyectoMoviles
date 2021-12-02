@@ -1,14 +1,18 @@
 package com.example.proyecto
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.example.proyecto.databinding.ActivityPantallaHabitoFaltanteBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 
 class pantalla_habito_faltante : AppCompatActivity() {
 
     private lateinit var  binding: ActivityPantallaHabitoFaltanteBinding
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =   ActivityPantallaHabitoFaltanteBinding.inflate(layoutInflater)
@@ -19,6 +23,7 @@ class pantalla_habito_faltante : AppCompatActivity() {
         setContentView(binding.root)
 
         for(habit in activeHabits) {
+            habitManager.printHabitObj(habit)
             today.add(ListElement(habit.category, habit.completed.toString() + "/" + habit.timesPerDay.toString(), "activa", getIcon(habit.category)))
         }
 

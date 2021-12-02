@@ -25,7 +25,8 @@
                 android:id="@+id/button_scroll_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/_1_rutina_de_ejercicio" />
+                android:text="@string/_1_rutina_de_ejercicio"
+                />
 
             <Button
                 android:id="@+id/button_scroll_2"
@@ -94,7 +95,7 @@
             android:text="@string/lo_que_me_falta_hacer_hoy" />
 
         <Button
-            android:id="@+id/button30"
+            android:id="@+id/graficasButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/reporte_semanal_mensual" />
@@ -125,8 +126,9 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
+            style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
