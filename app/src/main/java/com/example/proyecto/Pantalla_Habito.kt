@@ -2,12 +2,14 @@ package com.example.proyecto
 
 import android.content.DialogInterface
 import android.graphics.Color
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.proyecto.databinding.ActivityPantallaHabitoBinding
+import org.w3c.dom.Text
 
 class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
 
@@ -36,6 +38,8 @@ class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
         val leftLabel = findViewById<TextView>(R.id.leftLabel)
         val addCounter = findViewById<Button>(R.id.sumar)
         val subsCounter = findViewById<Button>(R.id.restar)
+        val habitMessage = findViewById<TextView>(R.id.habitMessage)
+        val habitImageView = findViewById<ImageView>(R.id.habitImageView)
         super.onCreate(savedInstanceState)
 
         category = intent.getStringExtra("category")!!
@@ -43,6 +47,8 @@ class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
         timesPerDayTextView.text = intent.getStringExtra("timePerDayTextView")!!
         completedLabel.text = intent.getStringExtra("completedLabel")
         leftLabel.text = intent.getStringExtra("leftLabel")
+        habitMessage.text = intent.getStringExtra("habitMessage")
+        habitImageView.setImageResource(intent.getIntExtra("icon", 0))
         habitManager = HabitManager(this)
 
         with(binding.autoCompleteTextView4){
