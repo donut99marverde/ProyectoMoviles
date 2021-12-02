@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-    android:id="@+id/cv"
+    android:id="@+id/cvRecords"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
@@ -63,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:text="Completo"
                     android:textSize="18sp"></TextView>
+
             </LinearLayout>
 
 

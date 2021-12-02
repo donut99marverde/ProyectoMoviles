@@ -69,12 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/_8_horas_de_sue_o" />
-
-            <Button
-                android:id="@+id/button_scroll_9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/_9_mil_pasos" />
         </LinearLayout>
     </ScrollView>
 

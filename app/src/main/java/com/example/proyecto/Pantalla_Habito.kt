@@ -1,23 +1,35 @@
 package com.example.proyecto
 
-import android.content.Intent
+import android.content.DialogInterface
 import android.graphics.Color
-import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import com.example.proyecto.databinding.ActivityPantallaHabitoBinding
 import org.w3c.dom.Text
 
-class Pantalla_Hábito : AppCompatActivity() {
+class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private lateinit var habitManager: HabitManager
+    val options = arrayOf("Lunes","Martes","Miercoles", "Jueves", "Viernes", "Sábado", "Domingo")
+    private var defaultPosition = 0
     private lateinit var category : String
     var counter = 0
+    private lateinit var binding: ActivityPantallaHabitoBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pantalla_habito)
+        binding = ActivityPantallaHabitoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val valores = resources.getStringArray(R.array.country_location)
+        val adapter = ArrayAdapter(
+            this,
+            R.layout.list_item,
+            valores
+        )
+
         val intent = intent
         val addButton = findViewById<Button>(R.id.addButton)
         val deleteButton = findViewById<Button>(R.id.deleteButton)
@@ -26,14 +38,24 @@ class Pantalla_Hábito : AppCompatActivity() {
         val leftLabel = findViewById<TextView>(R.id.leftLabel)
         val addCounter = findViewById<Button>(R.id.sumar)
         val subsCounter = findViewById<Button>(R.id.restar)
+        val habitMessage = findViewById<TextView>(R.id.habitMessage)
+        val habitImageView = findViewById<ImageView>(R.id.habitImageView)
+        super.onCreate(savedInstanceState)
 
         category = intent.getStringExtra("category")!!
         title = category
         timesPerDayTextView.text = intent.getStringExtra("timePerDayTextView")!!
         completedLabel.text = intent.getStringExtra("completedLabel")
         leftLabel.text = intent.getStringExtra("leftLabel")
-
+        habitMessage.text = intent.getStringExtra("habitMessage")
+        habitImageView.setImageResource(intent.getIntExtra("icon", 0))
         habitManager = HabitManager(this)
+
+        with(binding.autoCompleteTextView4){
+            setAdapter(adapter)
+            onItemClickListener = this@Pantalla_Habito
+        }
+
 
         updateViews()
 
@@ -97,9 +119,15 @@ class Pantalla_Hábito : AppCompatActivity() {
             if(habit.frequency == "daily") {
                 status += "todos los dias"
             } else {
-                status += "los siguientes dias"
+                status += "los siguientes dias: "
+                var index = 0
                 for(weekday in habit.daysOfTheWeek) {
-                    status += weekday
+                    if(index < habit.daysOfTheWeek.size - 1) {
+                        status += weekday + ", "
+                    } else {
+                        status += weekday
+                    }
+                    index++
                 }
             }
 
@@ -136,10 +164,7 @@ class Pantalla_Hábito : AppCompatActivity() {
         val timesPerDayTextNumber = findViewById<TextView>(R.id.timesPerDayTextNumber)
         val counterTextView = findViewById<TextView>(R.id.counterTextView)
         var timesPerDay : Int
-        val frequency = "daily"
         var daysOfTheWeek = ArrayList<String>()
-        daysOfTheWeek.add("Lunes")
-        daysOfTheWeek.add("Martes")
 
         if(timesPerDayTextNumber.text.toString().isNotEmpty()) {
             timesPerDay = timesPerDayTextNumber.text.toString().toInt()
@@ -158,6 +183,19 @@ class Pantalla_Hábito : AppCompatActivity() {
                 return
             }
         } else {
+
+            if(selectedItems.size == 0) {
+                Toast.makeText(this, "Se tiene que seleccionar al menos un dia si se elige la frecuencia semanal", Toast.LENGTH_SHORT).show()
+                return
+            } else {
+                Toast.makeText(this, "size = " + selectedItems.size.toString(), Toast.LENGTH_SHORT).show()
+            }
+
+            for(weekday in selectedItems) {
+                daysOfTheWeek.add(weekday)
+                Toast.makeText(this, weekday.toString(), Toast.LENGTH_SHORT).show()
+            }
+
             success = habitManager.addWeeklyHabit(category, timesPerDay, daysOfTheWeek)
 
             if(!success) {
@@ -177,7 +215,7 @@ class Pantalla_Hábito : AppCompatActivity() {
     }
 
     private fun deleteHabit() {
-        val success = habitManager.deleteHabit(category)
+        val success = habitManager.deleteHabit(getString(R.string.Vasos_de_agua))
 
         if(success) {
             Toast.makeText(this, "Hábito eliminado", Toast.LENGTH_SHORT).show()
@@ -186,4 +224,62 @@ class Pantalla_Hábito : AppCompatActivity() {
         }
         updateViews()
     }
+    //dropdown
+
+    val selectedItems = ArrayList<String>() // Where we track the selected items
+    var frequency = "daily"
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val item = parent?.getItemAtPosition(position).toString()
+
+        if(item == "Diario") {
+            frequency = "daily"
+        } else {
+            frequency = "weekly"
+            selectedItems.clear()
+        }
+
+        if(item == "Semanal")
+        {
+            val builderSingle = AlertDialog.Builder(this)
+
+            builderSingle.setTitle("Select")
+
+//             builderSingle.(R.string.pick_toppings)
+            builderSingle.setPositiveButton(getString(android.R.string.ok)) {dialog, _ -> dialog.dismiss()}
+            builderSingle.setMultiChoiceItems(R.array.dias_semana,null,
+                DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                if (isChecked) {
+                    // If the user checked the item, add it to the selected items
+                    selectedItems.add(convertToWeekday(which))
+                } else if (selectedItems.contains(convertToWeekday(which))) {
+                    // Else, if the item is already in the array, remove it
+                    selectedItems.remove(convertToWeekday(which))
+                }
+            })
+//            builderSingle.setSingleChoiceItems(options, defaultPosition) {dialog, which ->
+//                defaultPosition = which
+//            }
+            builderSingle.create()
+            builderSingle.show()
+        }
+
+
+//        val intent = Intent(this,pantalla_habito_faltante::class.java)
+//        startActivity(intent)
+    }
+
+    private fun convertToWeekday(weekday: Int) : String{
+        return when(weekday) {
+            0 -> "Lunes"
+            1 -> "Martes"
+            2 -> "Miercoles"
+            3 -> "Jueves"
+            4 -> "Viernes"
+            5 -> "Sabado"
+            else -> "Domingo"
+        }
+    }
+    //dropdown
+
 }
