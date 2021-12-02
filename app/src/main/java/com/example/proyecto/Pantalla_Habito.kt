@@ -1,5 +1,6 @@
 package com.example.proyecto
 
+import android.content.DialogInterface
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +12,7 @@ import com.example.proyecto.databinding.ActivityPantallaHabitoBinding
 class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private lateinit var habitManager: HabitManager
-    private val options = arrayOf("Lunes","Martes","Miercoles")
+    val options = arrayOf("Lunes","Martes","Miercoles", "Jueves", "Viernes", "Sábado", "Domingo")
     private var defaultPosition = 0
     private lateinit var category : String
     var counter = 0
@@ -209,6 +210,8 @@ class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
         updateViews()
     }
     //dropdown
+
+    val selectedItems = ArrayList<Int>() // Where we track the selected items
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val item = parent?.getItemAtPosition(position).toString()
         Toast.makeText(this@Pantalla_Habito, item, Toast.LENGTH_SHORT).show()
@@ -216,12 +219,26 @@ class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
         if(item == "Semanal")
         {
             val builderSingle = AlertDialog.Builder(this)
+
             builderSingle.setTitle("Select")
+
+//             builderSingle.(R.string.pick_toppings)
             builderSingle.setPositiveButton(getString(android.R.string.ok)) {dialog, _ -> dialog.dismiss()}
-            builderSingle.setSingleChoiceItems(options, defaultPosition) {dialog, which ->
-                defaultPosition = which
-            }
+            builderSingle.setMultiChoiceItems(R.array.country_location,null,
+                DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                if (isChecked) {
+                    // If the user checked the item, add it to the selected items
+                    selectedItems.add(which)
+                } else if (selectedItems.contains(which)) {
+                    // Else, if the item is already in the array, remove it
+                    selectedItems.remove(which)
+                }
+            })
+//            builderSingle.setSingleChoiceItems(options, defaultPosition) {dialog, which ->
+//                defaultPosition = which
+//            }
             builderSingle.create()
+            builderSingle.show()
         }
 
 
