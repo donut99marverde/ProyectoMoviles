@@ -6,12 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.example.proyecto.databinding.ActivityPantallaHabitoFaltanteBinding
 import com.example.proyecto.databinding.ActivityPantallaVasosBinding
 
 class Pantalla_Vasos : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     private lateinit var habitManager: HabitManager
+    private val options = arrayOf("Lunes","Martes","Miercoles")
+    private var defaultPosition = 0
 
     var counter = 0
     //        dropdown
@@ -34,6 +37,8 @@ class Pantalla_Vasos : AppCompatActivity(), AdapterView.OnItemClickListener {
             onItemClickListener = this@Pantalla_Vasos
         }
 //        dropdown
+
+
 
 
         super.onCreate(savedInstanceState)
@@ -207,8 +212,21 @@ class Pantalla_Vasos : AppCompatActivity(), AdapterView.OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val item = parent?.getItemAtPosition(position).toString()
         Toast.makeText(this@Pantalla_Vasos, item, Toast.LENGTH_SHORT).show()
-        val intent = Intent(this,pantalla_habito_faltante::class.java)
-        startActivity(intent)
+
+        if(item == "Semanal")
+        {
+            val builderSingle = AlertDialog.Builder(this)
+            builderSingle.setTitle("Select")
+            builderSingle.setPositiveButton(getString(android.R.string.ok)) {dialog, _ -> dialog.dismiss()}
+            builderSingle.setSingleChoiceItems(options, defaultPosition) {dialog, which ->
+                defaultPosition = which
+            }
+            builderSingle.create()
+        }
+
+
+//        val intent = Intent(this,pantalla_habito_faltante::class.java)
+//        startActivity(intent)
     }
     //dropdown
 
