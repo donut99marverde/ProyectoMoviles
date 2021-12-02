@@ -224,7 +224,7 @@ class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
 
 //             builderSingle.(R.string.pick_toppings)
             builderSingle.setPositiveButton(getString(android.R.string.ok)) {dialog, _ -> dialog.dismiss()}
-            builderSingle.setMultiChoiceItems(R.array.country_location,null,
+            builderSingle.setMultiChoiceItems(R.array.dias_semana,null,
                 DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                 if (isChecked) {
                     // If the user checked the item, add it to the selected items
