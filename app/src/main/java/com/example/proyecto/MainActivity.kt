@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = "Hábitos"
-        val context = this
-        context.deleteDatabase("Habits")
+        //val context = this
+        //context.deleteDatabase("Habits")
         val habit4Button = findViewById<Button>(R.id.button_scroll_4)
         val habit5Button = findViewById<Button>(R.id.button_scroll_5)
         val habit6Button = findViewById<Button>(R.id.button_scroll_6)
