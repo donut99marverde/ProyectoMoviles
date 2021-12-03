@@ -215,7 +215,7 @@ class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     private fun deleteHabit() {
-        val success = habitManager.deleteHabit(getString(R.string.Vasos_de_agua))
+        val success = habitManager.deleteHabit(category)
 
         if(success) {
             Toast.makeText(this, "Hábito eliminado", Toast.LENGTH_SHORT).show()
