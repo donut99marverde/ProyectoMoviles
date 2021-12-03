@@ -187,13 +187,10 @@ class Pantalla_Habito : AppCompatActivity(), AdapterView.OnItemClickListener {
             if(selectedItems.size == 0) {
                 Toast.makeText(this, "Se tiene que seleccionar al menos un dia si se elige la frecuencia semanal", Toast.LENGTH_SHORT).show()
                 return
-            } else {
-                Toast.makeText(this, "size = " + selectedItems.size.toString(), Toast.LENGTH_SHORT).show()
             }
 
             for(weekday in selectedItems) {
                 daysOfTheWeek.add(weekday)
-                Toast.makeText(this, weekday.toString(), Toast.LENGTH_SHORT).show()
             }
 
             success = habitManager.addWeeklyHabit(category, timesPerDay, daysOfTheWeek)
